@@ -5,6 +5,24 @@ QConf Go Doc
 - Install go_qconf
 ```shell
 go install infra/go_qconf
+
+### if you are using a mac, encount a error like this :
+# infra/go_qconf
+ld: library not found for -lqconf
+clang: error: linker command failed with exit code 1 (use -v to see invocation)
+
+you can use cmake to generate the qconf lib:libqconf.a and libqconf.dylib. 
+
+find the location of libqconf.a or libqconf.dylib, then modify the source code:
+#cgo LDFLAGS:  -lqconf -lm
+to :
+#cgo LDFLAGS: -Lyourqconflibpath -lqconf -lm
+because my libqconf.dylib is in /usr/local/lib
+so my source code change to:
+#cgo LDFLAGS: -L/usr/local/lib -lqconf -lm
+
+then execute the cmd:
+go install infra/go_qconf
 ```
 - Import qconf package in your code file.
 ``` shell
